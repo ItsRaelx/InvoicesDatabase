@@ -51,5 +51,4 @@ RUN vite --version
 
 EXPOSE 8000
 
-# Command to run when starting the container
-CMD ["/bin/bash", "script.sh"]
+ENTRYPOINT ["sh", "-c", "composer install && /bin/bash /var/www/html/script.sh"]
