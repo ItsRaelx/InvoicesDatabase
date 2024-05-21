@@ -9,7 +9,7 @@ services:
     ports:
       - "5000:8000"
     volumes:
-      - .:/var/www/html
+      - app_data:/var/www/html
     depends_on:
       - db
 
@@ -32,4 +32,9 @@ services:
 
 volumes:
   db_data:
+<<<<<<< HEAD
 ```
+=======
+  app_data:
+```
+>>>>>>> 25cf11d (Modify docker)
