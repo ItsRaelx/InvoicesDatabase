@@ -1,5 +1,8 @@
 # Invoices Databdase
 
+## Description
+Invoices organizer
+
 ## Setup using docker-compose.yml
 ```yml
 services:
