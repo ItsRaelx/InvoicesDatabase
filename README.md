@@ -8,9 +8,9 @@ Invoices organizer
 services:
   app:
     image: ghcr.io/itsraelx/invoicesdatabase:latest
-    command: sh -c "composer install && /bin/bash /var/www/html/script.sh"
+    restart: unless-stopped
     ports:
-      - "5000:8000"
+      - "127.0.0.1:5000:8000"
     volumes:
       - app_data:/var/www/html
     depends_on:
@@ -18,20 +18,24 @@ services:
 
   db:
     image: mysql:latest
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: invoice_manager
     volumes:
       - db_data:/var/lib/mysql
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
     environment:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: secret
     ports:
-      - "5080:80"
+      - "127.0.0.1:5080:80"
+    depends_on:
+      - db
 
 volumes:
   db_data:
