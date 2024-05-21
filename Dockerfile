@@ -5,6 +5,7 @@ WORKDIR /var/www/html
 
 # Install necessary packages
 RUN apk update && apk add --no-cache \
+    bash \
     curl \
     libpng \
     libjpeg \
