@@ -4,14 +4,12 @@
 ```yml
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/itsraelx/invoicesdatabase:latest
     command: sh -c "composer install && /bin/bash /var/www/html/script.sh"
     ports:
       - "5000:8000"
     volumes:
-      - .:/var/www/html
+      - app_data:/var/www/html
     depends_on:
       - db
 
@@ -34,4 +32,5 @@ services:
 
 volumes:
   db_data:
+  app_data:
 ```

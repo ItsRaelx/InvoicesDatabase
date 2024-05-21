@@ -1,25 +1,24 @@
-# Use a slim version of PHP base image
+# Use a base image
 FROM php:8.3-cli-alpine
 
 WORKDIR /var/www/html
 
 # Install necessary packages
-RUN set -eux; \
-    apk add --no-cache \
-        curl \
-        libpng \
-        libjpeg \
-        icu \
-        zip \
-        libzip \
-        nodejs \
-        npm \
+RUN apk update && apk add --no-cache \
+    curl \
+    libpng \
+    libjpeg \
+    icu \
+    zip \
+    libzip \
+    nodejs \
+    npm \
     && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        icu-dev \
-        libzip-dev \
+    $PHPIZE_DEPS \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    icu-dev \
+    libzip-dev \
     && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd intl opcache pdo pdo_mysql zip mysqli \
     && pecl install apcu \
@@ -30,7 +29,7 @@ RUN set -eux; \
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy the application files to the container
+# Copy all project files into the container
 COPY . .
 
 # Set script.sh as executable
