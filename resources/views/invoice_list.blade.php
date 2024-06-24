@@ -58,6 +58,7 @@
                             [Netto] @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'price' ])
                         </a>
                     </th>
+                    <th scope="col">Suma</th>
                     <th scope="col">Podatek VAT</th>
                     <th scope="col">Miejsce</th>
                     <th scope="col"></th>
@@ -75,12 +76,13 @@
                         <td>{{$invoice->invoice_quantity}}szt.</td>
                         <td>{{$invoice->quantity}}szt.</td>
                         <td>{{$invoice->price}}zł</td>
+                        <td>{{$invoice->price * $invoice->quantity}} zł</td>
                         <td>{{ intval($invoice->vat_rate) }}%</td>
                         <td>
                             <!-- Move button-->
                             <div class="d-flex justify-content-start text-center">
                                 <a href=""
-                                   class="btn btn-secondary " data-toggle="modal"
+                                   class="btn btn-secondary border" data-toggle="modal"
                                    data-target="#move-modal-{{$invoice->id}}">
                                     <i class="fas fa-arrow-right"></i>
                                 </a>
@@ -88,7 +90,7 @@
                             </div>
 
                         </td>
-                        <td class="col d-flex justify-content-start">
+                        <td class="col  justify-content-start">
                             <!-- Delete button-->
                             <a href="" class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                 <i class="fas fa-minus"></i>
@@ -141,4 +143,3 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection
-

@@ -17,8 +17,8 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sortBy', 'asc');
-        $sortDirection = $request->input('sortDirection');
+        $sortBy = $request->input('sortBy', 'invoice_date'); // Domyślne sortowanie po dacie faktury
+        $sortDirection = $request->input('sortDirection', 'desc'); // Domyślne sortowanie malejąco
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
@@ -32,6 +32,10 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
+        // Sortowanie po dacie faktury (od najnowszych do najstarszych)
+        $query->orderBy('invoice_date', 'desc');
+
+        // Możliwość dodatkowego sortowania po innych kolumnach
         if ($sortBy && $sortDirection) {
             $query->orderBy($sortBy, $sortDirection);
         }
@@ -75,7 +79,6 @@ class InvoiceController extends Controller
         $invoice->invoice_number = $request->input('invNumber');
         $invoice->product_name = $request->input('invProductName');
         $invoice->quantity = $request->input('invQuantity');
-        $invoice->price = $request->input('invPrice');
         $invoice->place = $request->input('invPlace');
         $invoice->invoice_date = $request->input('invDate');
         $invoice->vat_rate = $request->input('quantityToRemove');
@@ -122,6 +125,7 @@ class InvoiceController extends Controller
 
     public function deleteStock(DeleteStockRequest $request)
     {
+        $action = $request->input('s_type');
         $request = $request->validated();
         $id = $request ['id'];
         $invoice_number = $request ['invoice_number'];
@@ -132,7 +136,7 @@ class InvoiceController extends Controller
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
         StockControl::create([
-            'title' => 'Usuń',
+            'title' => $action,
             'invoice_id' => $id,
             'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
             'operation_date' => $invDate, // lub inna data operacji
